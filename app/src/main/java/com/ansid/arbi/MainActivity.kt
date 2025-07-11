@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArbitrageCalculatorUI(modifier: Modifier = Modifier) {
+    val focusManager = androidx.compose.ui.platform.LocalFocusManager.current
     var numOutcomes by remember { mutableStateOf(2) }
     var odds by remember { mutableStateOf(List(2) { "" }) }
     var totalBet by remember { mutableStateOf("") }
@@ -112,6 +113,7 @@ fun ArbitrageCalculatorUI(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
+                focusManager.clearFocus() // Collapse keyboard
                 val oddsD = odds.mapNotNull { it.toDoubleOrNull() }
                 val bet = totalBet.toDoubleOrNull()
                 if (oddsD.size == numOutcomes && bet != null && oddsD.all { it > 0 }) {
